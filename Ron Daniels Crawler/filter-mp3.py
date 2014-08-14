@@ -34,6 +34,11 @@ as:
 
 import urllib2								# Needed for fetchHTML
 from BeautifulSoup import BeautifulSoup		# filterForAudio
+try:
+	from urllib.request import urlretrieve
+except ImportError:
+	from urllib import urlretrieve
+	
 
 def pause():
 	raw_input("")
@@ -42,8 +47,19 @@ def fetchHTML(link):					# This defines the method/function
 	response = urllib2.urlopen(link)	# Opens the webpage
 	html = response.read()				# Reads the data on the page
 	return(html)						# Returns the html as a string
+def dl3(link):
+	filename = link.split("/")[-1]
+	print "downloading " + filename
+#	with open(filename,"w") as f:
+#		data = fetchHTML(link)
+#		f.write(data)
+	urlretrieve(link,filename)
 
 
+
+	
+	
+	
 ## Takes in the page html and optionally the root url (needed for the full mp3 path)
 def filterForAudio(html,url=""):												# Defines the method/function
 	soup = BeautifulSoup(html)													# Loads the html as a BS object
@@ -71,9 +87,9 @@ raw_input("Done")	# "Pauses" the script
 links = ["http://www.rondaniel.com/library/14-2Chronicles/2Chronicles.html","http://cityviewonline.org/sounds/event/event.htm"]
 for link in links:
 	html = fetchHTML(link)
-	mp3l = filterForAudio(html)
-	for  in mp3l
-	print 
+	mp3l = filterForAudio(html,link)
+	for mp3 in mp3l:
+		dl3(mp3)
 
 
 
